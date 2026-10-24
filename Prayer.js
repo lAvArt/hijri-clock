@@ -468,6 +468,20 @@ function upcoming(now, forDate) {
   return { today: today, next: next, current: current }
 }
 
+// Which prayer's reminder is due in the minute `now` falls in, or null.
+// A reminder fires `lead` minutes before the prayer (0 = at the prayer), once,
+// at the minute boundary, so a clock that ticks every minute never misses it
+// and a shell restarted later does not replay the ones already past.
+function reminderDue(times, now, lead) {
+  var minute = Math.floor(now.getTime() / MS_PER_MINUTE)
+  var ahead = Math.max(0, Math.min(60, parseInt(lead, 10) || 0))
+  for (var i = 0; i < PRAYERS.length; i++) {
+    var at = times && times[PRAYERS[i]]
+    if (at && Math.floor(at.getTime() / MS_PER_MINUTE) - ahead === minute) return { key: PRAYERS[i], at: at, lead: ahead }
+  }
+  return null
+}
+
 // "2h 05m", "12m", "now" -- from a gap in milliseconds.
 function countdown(ms) {
   var minutes = Math.ceil(ms / MS_PER_MINUTE)
@@ -549,6 +563,7 @@ if (typeof module !== "undefined") {
     upcoming: upcoming,
     prayerName: prayerName,
     countdown: countdown,
+    reminderDue: reminderDue,
     formatClock: formatClock,
     localeUses12Hour: localeUses12Hour,
     hour12For: hour12For,

@@ -34,7 +34,7 @@ Everything is in the widget's settings (or its entry in `shell.json`). Prayer ti
 | `prayerTimeFormat` | System (follows your locale), 24-hour or 12-hour. |
 | `hijriDayChange` | `At midnight` or `At Maghrib` (the Hijri date moves on at sunset). |
 | `weekStartDay` | Locale default, Saturday, Sunday or Monday. |
-| `prayerNotify` | A desktop notification (`omarchy-notification-send`) when each prayer begins. |
+| `prayerNotify`, `prayerReminderMinutes` | A quiet reminder for each of the five prayers, `prayerReminderMinutes` before it (default 10; 0 = at the prayer). Low urgency, 8 seconds on screen, no sound, and each replaces the last instead of stacking. Sent with `omarchy-notification-send`. Off by default. |
 
 Bar label placeholders when prayer times are on: `{np}` next prayer, `{nt}` its time, `{nr}` time remaining, e.g. `HH:mm  ·  {np} 'in' {nr}`. Right-click offers two presets.
 

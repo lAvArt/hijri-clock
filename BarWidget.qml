@@ -96,29 +96,28 @@ BarWidget {
     }
   }
 
-  // Sent once per prayer, at the minute it begins.
+  // A quiet reminder per prayer: low urgency, a few seconds on screen, no
+  // sound, replacing the previous one rather than stacking. `prayerReminder`
+  // minutes before the prayer, or at it when 0.
   property string lastNotifiedKey: ""
 
   function maybeNotify() {
     if (String(setting("prayerNotify", "Off")) !== "On") return
     var info = prayer
     if (!info || !info.today) return
-    var minute = Math.floor(displayDate.getTime() / 60000)
-    for (var i = 0; i < Prayer.PRAYERS.length; i++) {
-      var key = Prayer.PRAYERS[i]
-      var at = info.today[key]
-      if (!at || Math.floor(at.getTime() / 60000) !== minute) continue
-      var id = Model.keyForDate(displayDate) + ":" + key
-      if (id === lastNotifiedKey) return
-      lastNotifiedKey = id
-      notifier.command = [
-        "omarchy-notification-send", "-g", "󰥔", "-u", "normal",
-        Prayer.prayerName(key, at),
-        Prayer.formatClock(at, info.hour12) + "  ·  " + info.location.name
-      ]
-      notifier.running = true
-      return
-    }
+    var due = Prayer.reminderDue(info.today, displayDate, setting("prayerReminderMinutes", 10))
+    if (!due) return
+    var id = Model.keyForDate(displayDate) + ":" + due.key
+    if (id === lastNotifiedKey) return
+    lastNotifiedKey = id
+    var name = Prayer.prayerName(due.key, due.at)
+    var when = Prayer.formatClock(due.at, info.hour12) + "  ·  " + info.location.name
+    notifier.command = [
+      "omarchy-notification-send", "-g", "󰥔", "-u", "low", "-t", "8000", "-r", "7731001",
+      due.lead > 0 ? name + " in " + due.lead + " min" : name,
+      when
+    ]
+    notifier.running = true
   }
 
   // Plain text for scripts and keybindings: `qs ipc call … nextPrayer`.

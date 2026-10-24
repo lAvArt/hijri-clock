@@ -33,7 +33,8 @@
       "prayerOffsetAsr": 0,
       "prayerOffsetMaghrib": 0,
       "prayerOffsetIsha": 0,
-      "prayerNotify": "Off"
+      "prayerNotify": "Off",
+      "prayerReminderMinutes": 10
     },
     "schema": [
       {
@@ -214,13 +215,23 @@
       {
         "key": "prayerNotify",
         "type": "enum",
-        "label": "Notify at prayer time",
+        "label": "Prayer reminders",
         "options": [
           "Off",
           "On"
         ],
         "defaultValue": "Off",
-        "description": "Send a desktop notification when each prayer begins. No sound."
+        "description": "A quiet desktop notification for each of the five prayers: low priority, gone after a few seconds, no sound."
+      },
+      {
+        "key": "prayerReminderMinutes",
+        "type": "integer",
+        "label": "Remind me (minutes before)",
+        "min": 0,
+        "max": 60,
+        "step": 5,
+        "defaultValue": 10,
+        "description": "0 reminds at the prayer time itself. Only used when Prayer reminders is On."
       }
     ]
   }

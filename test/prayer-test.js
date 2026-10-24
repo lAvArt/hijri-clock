@@ -217,4 +217,18 @@ test("week start names written by the panel read back unchanged", () => {
   assert.strictEqual(M.normalizedWeekStart("Locale default", 6), 6)
 })
 
+test("reminders fire once, in the right minute, with the lead time", () => {
+  const times = P.compute({ year: 2026, month: 9, day: 24, lat: 51.5074, lon: -0.1278, method: "mwl", asr: "standard" })
+  const m = 60000
+  const at = (d) => P.reminderDue(times, d, 10)
+  assert.strictEqual(at(new Date(times.asr - 10 * m)).key, "asr")
+  assert.strictEqual(at(new Date(times.asr - 10 * m + 30000)).key, "asr")  // anywhere in that minute
+  assert.strictEqual(at(new Date(times.asr - 11 * m)), null)
+  assert.strictEqual(at(new Date(times.asr)), null)
+  assert.strictEqual(P.reminderDue(times, new Date(times.asr.getTime()), 0).key, "asr")
+  assert.strictEqual(at(new Date(times.sunrise - 10 * m)), null)  // sunrise is not a prayer
+  assert.strictEqual(P.reminderDue(times, new Date(times.isha), "garbage").key, "isha")  // junk lead means at the prayer
+  assert.strictEqual(P.reminderDue(null, new Date(), 10), null)
+})
+
 console.log(passed + " passed")
