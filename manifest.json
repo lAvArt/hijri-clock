@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.lavart.hijri-clock",
+  "name": "Hijri Clock",
+  "version": "1.0.0",
+  "author": "lAvArt Studio",
+  "description": "A bar clock with an Umm al-Qura Hijri calendar popup and optional offline prayer times with regional setup.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Hijri Clock",
+    "description": "Date and time in the bar; click for a Hijri month calendar with prayer times.",
+    "category": "Time",
+    "allowMultiple": false,
+    "defaults": {
+      "weekStartDay": "Locale default",
+      "hijriDayChange": "At midnight",
+      "prayerTimes": "Off",
+      "prayerCity": "",
+      "prayerLatitude": "",
+      "prayerLongitude": "",
+      "prayerMethod": "Auto (by region)",
+      "prayerAsr": "Standard (Shafi'i, Maliki, Hanbali)",
+      "prayerHighLatitude": "Auto",
+      "prayerTimeFormat": "System",
+      "prayerOffsetFajr": 0,
+      "prayerOffsetSunrise": 0,
+      "prayerOffsetDhuhr": 0,
+      "prayerOffsetAsr": 0,
+      "prayerOffsetMaghrib": 0,
+      "prayerOffsetIsha": 0,
+      "prayerNotify": "Off"
+    },
+    "schema": [
+      {
+        "key": "weekStartDay",
+        "type": "enum",
+        "label": "Week starts on",
+        "options": [
+          "Locale default",
+          "Saturday",
+          "Sunday",
+          "Monday"
+        ],
+        "defaultValue": "Locale default",
+        "description": "Saturday suits much of the Arab world, Sunday the Americas, Monday most of Europe. Locale default follows your system language and region."
+      },
+      {
+        "key": "hijriDayChange",
+        "type": "enum",
+        "label": "Hijri day changes",
+        "options": [
+          "At midnight",
+          "At Maghrib"
+        ],
+        "defaultValue": "At midnight",
+        "description": "Islamic days begin at sunset. At Maghrib needs prayer times switched on, and moves the Hijri date forward once Maghrib arrives."
+      },
+      {
+        "key": "prayerTimes",
+        "type": "enum",
+        "label": "Prayer times",
+        "options": [
+          "Off",
+          "On"
+        ],
+        "defaultValue": "Off",
+        "description": "Show the five daily prayers in the calendar panel. Calculated on this computer from the sun's position; nothing is sent over the network."
+      },
+      {
+        "key": "prayerCity",
+        "type": "string",
+        "label": "City",
+        "defaultValue": "",
+        "description": "A city from the built-in list, for example Istanbul, London, Jakarta, Toronto or Makkah. Leave empty to use the city that matches your system time zone."
+      },
+      {
+        "key": "prayerLatitude",
+        "type": "string",
+        "label": "Latitude (optional)",
+        "defaultValue": "",
+        "description": "For a place not in the list, with Longitude. Decimal degrees, south negative: 41.0082 or 33.87 S. Overrides City."
+      },
+      {
+        "key": "prayerLongitude",
+        "type": "string",
+        "label": "Longitude (optional)",
+        "defaultValue": "",
+        "description": "Decimal degrees, west negative: 28.9784 or 118.24 W."
+      },
+      {
+        "key": "prayerMethod",
+        "type": "enum",
+        "label": "Calculation method",
+        "options": [
+          "Auto (by region)",
+          "Muslim World League",
+          "ISNA (North America)",
+          "Egyptian General Authority",
+          "Umm al-Qura (Makkah)",
+          "Karachi (Islamic Sciences)",
+          "Tehran (Institute of Geophysics)",
+          "Jafari (Shia Ithna-Ashari)",
+          "Gulf Region",
+          "Kuwait",
+          "Qatar",
+          "Dubai (UAE)",
+          "Singapore / Malaysia / Indonesia",
+          "Turkey (Diyanet)",
+          "France (UOIF)",
+          "Russia (Spiritual Administration)",
+          "Jordan",
+          "Tunisia",
+          "Algeria",
+          "Morocco"
+        ],
+        "defaultValue": "Auto (by region)",
+        "description": "Auto picks the method your region's religious authority uses. Choose one to override it."
+      },
+      {
+        "key": "prayerAsr",
+        "type": "enum",
+        "label": "Asr calculation",
+        "options": [
+          "Standard (Shafi'i, Maliki, Hanbali)",
+          "Hanafi"
+        ],
+        "defaultValue": "Standard (Shafi'i, Maliki, Hanbali)",
+        "description": "Hanafi Asr begins when a shadow is twice an object's length, later than the standard."
+      },
+      {
+        "key": "prayerHighLatitude",
+        "type": "enum",
+        "label": "High-latitude rule",
+        "options": [
+          "Auto",
+          "None",
+          "Middle of the night",
+          "One-seventh of the night",
+          "Angle-based"
+        ],
+        "defaultValue": "Auto",
+        "description": "How Fajr and Isha are found where the sun does not get low enough. Auto uses Angle-based above 48 degrees and nothing below."
+      },
+      {
+        "key": "prayerTimeFormat",
+        "type": "enum",
+        "label": "Time format",
+        "options": [
+          "System",
+          "24-hour",
+          "12-hour"
+        ],
+        "defaultValue": "System"
+      },
+      {
+        "key": "prayerOffsetFajr",
+        "type": "integer",
+        "label": "Fajr offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerOffsetSunrise",
+        "type": "integer",
+        "label": "Sunrise offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerOffsetDhuhr",
+        "type": "integer",
+        "label": "Dhuhr offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerOffsetAsr",
+        "type": "integer",
+        "label": "Asr offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerOffsetMaghrib",
+        "type": "integer",
+        "label": "Maghrib offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerOffsetIsha",
+        "type": "integer",
+        "label": "Isha offset (minutes)",
+        "min": -60,
+        "max": 60,
+        "step": 1,
+        "defaultValue": 0
+      },
+      {
+        "key": "prayerNotify",
+        "type": "enum",
+        "label": "Notify at prayer time",
+        "options": [
+          "Off",
+          "On"
+        ],
+        "defaultValue": "Off",
+        "description": "Send a desktop notification when each prayer begins. No sound."
+      }
+    ]
+  }
+}
