@@ -1,10 +1,27 @@
 # Hijri Clock
 
-An [Omarchy](https://omarchy.org) bar clock with an Umm al-Qura Hijri calendar popup and optional prayer times.
+An [Omarchy](https://omarchy.org) bar clock with an Umm al-Qura **Hijri calendar**, **prayer times** (salah / namaz) for the five daily prayers, and quiet reminders. Prayer times are calculated offline, so there is no network, no location service and no account.
 
-- Bar label: any Qt date format, plus Hijri placeholders `{hd}` (day), `{hMMMM}` (month) and `{hy}` (year). Right-click cycles formats, middle-click opens the timezone picker.
-- Click: a Hijri month grid with Gregorian days, ISO week numbers, year progress, and (if enabled) today's prayer times with the next prayer outlined.
-- Prayer times are **calculated offline** from the sun's position. No network, no location service, no account.
+<p align="center"><img src="docs/images/panel-istanbul.png" alt="Calendar popup: Hijri month grid with prayer times for Istanbul using the Diyanet method" width="520"></p>
+
+## Features
+
+- **Hijri calendar popup** (Umm al-Qura, 1400-1500 AH) with Gregorian days, ISO week numbers and year progress.
+- **Prayer times** for Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha, with the next prayer outlined and a countdown.
+- **Regional setup**: 90 cities that pick their country's authority automatically, custom coordinates, 19 calculation methods, Standard or Hanafi Asr, a high-latitude rule, per-prayer minute offsets, 12/24-hour time and a configurable week start.
+- **Hijri date at Maghrib**: optionally move the Hijri date forward at sunset, as the Islamic day does.
+- **Quiet reminders**: a low-priority notification before each prayer, gone in 8 seconds, no sound.
+- **Bar label placeholders**: `{hd} {hMMMM} {hy}` for the Hijri date and `{np} {nt} {nr}` for the next prayer, its time and the time left.
+
+<p align="center">
+  <img src="docs/images/panel-makkah.png" alt="Makkah with Umm al-Qura method, 12-hour time and the Hijri date moved on after Maghrib" width="380">
+</p>
+<p align="center">
+  <img src="docs/images/bar-label.png" alt="Bar label showing the next prayer and the time left" width="420"><br>
+  <img src="docs/images/reminder.png" alt="A quiet reminder notification: Asr in 10 min" width="420">
+</p>
+
+The second screenshot is Makkah with the Umm al-Qura method, 12-hour time and "Hijri day changes at Maghrib": it is after Maghrib, so the date already reads 14 Jumada al-Ula.
 
 ## Install
 
